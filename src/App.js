@@ -6,6 +6,7 @@ import moment from 'moment';
 import SearchBar from "./SearchBar.js"
 import CardBox from './CardBox.js'
 // import requests
+// feature a
 function App() {
   const [news, setNews] = useState([]);
 
@@ -20,9 +21,9 @@ function App() {
     <div>
         <CardBox/>
       </div>
-    <div className="searchbar">
+    {/* <div className="searchbar">
      <SearchBar/>
-     </div>
+     </div> */}
       
     
     </>

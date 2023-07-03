@@ -5,13 +5,13 @@ const port = 5000; // Choose an appropriate port number
 
 app.use(cors());
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://mario:Fr33t3st@mern.uocqkrr.mongodb.net/disaster', {
+mongoose.connect('mongodb+srv://mario:Fr33t3st@cluster.bdqihjb.mongodb.net/disaster', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -28,7 +28,7 @@ const relatedSchema = new mongoose.Schema({
     twitterUrl: String,
 });
 
-const Related = mongoose.model('related', relatedSchema);
+const Related = mongoose.model('non-relateds', relatedSchema);
 
 app.get('/api/related', (req, res) => {
     Related.find({})
@@ -39,4 +39,11 @@ app.get('/api/related', (req, res) => {
             console.error('Error fetching data from MongoDB:', error);
             res.status(500).json({ error: 'Failed to fetch data from MongoDB' });
         });
+});
+
+process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+        console.log('Mongoose connection closed');
+        server.close();
+    });
 });
