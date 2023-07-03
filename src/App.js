@@ -3,8 +3,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import "./App.css"
 import moment from 'moment';
-import SearchBar from "./SearchBar.js"
+import Navbar from './Navbar.js'; 
 import CardBox from './CardBox.js'
+import Textarea from './Textarea';
 // import requests
 // feature a
 function App() {
@@ -18,13 +19,17 @@ function App() {
   }, []);
   return (
     <>
-    <div>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Navbar />
+      <CardBox/>
+      <Textarea />
+    </div>
+    {/* <div> 
+      <Navbar> </Navbar>
         <CardBox/>
+       
       </div>
-    {/* <div className="searchbar">
-     <SearchBar/>
-     </div> */}
-      
+    */}
     
     </>
   );
