@@ -1,36 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MDBNavbar, MDBContainer, MDBNavbarBrand, MDBNavbarNav, MDBNavbarItem, MDBNavbarLink } from 'mdb-react-ui-kit';
+import { MDBNavbar, MDBContainer, MDBNavbarToggler, MDBCollapse, MDBNavbarNav, MDBNavbarItem, MDBNavbarLink } from 'mdb-react-ui-kit';
+import { Icon } from '@mdi/react';
+import { mdiMenu, mdiClose } from '@mdi/js';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleCollapse = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <MDBNavbar expand='lg' light bgColor='light' fixed='top'>
       <MDBContainer fluid>
-        <MDBNavbarBrand>
-          <h3 className='navbar-brand'>Navbar</h3>
-        </MDBNavbarBrand>
-        <MDBNavbarNav className='mb-2 mb-lg-0'>
-          {/* Home */}
-          <MDBNavbarItem>
-            <Link to="/" className='nav-link'>Home</Link>
-          </MDBNavbarItem>
-          {/* About */}
-          <MDBNavbarItem>
-            <MDBNavbarLink href='#'>About</MDBNavbarLink>
-          </MDBNavbarItem>
-          {/* Services */}
-          <MDBNavbarItem>
-            <MDBNavbarLink href='#'>Services</MDBNavbarLink>
-          </MDBNavbarItem>
-          {/* Contact */}
-          <MDBNavbarItem>
-            <MDBNavbarLink href='#'>Contact</MDBNavbarLink>
-          </MDBNavbarItem>
+        <Link to="/" className='navbar-brand'>
+          Navbar
+        </Link>
+        <MDBNavbarToggler onClick={toggleCollapse}>
+          <Icon path={isOpen ? mdiClose : mdiMenu} size={1} />
+        </MDBNavbarToggler>
+        <MDBCollapse show={isOpen} navbar>
+          <MDBNavbarNav className='mr-auto' style={{ marginLeft: '800px' }}>
+            {/* About */}
+            <MDBNavbarItem>
+              <MDBNavbarLink href='#'>About</MDBNavbarLink>
+            </MDBNavbarItem>
+            {/* Services */}
+            <MDBNavbarItem>
+              <MDBNavbarLink href='#'>Services</MDBNavbarLink>
+            </MDBNavbarItem>
+            {/* Contact */}
+            <MDBNavbarItem>
+              <MDBNavbarLink href='#'>Contact</MDBNavbarLink>
+            </MDBNavbarItem>
+          </MDBNavbarNav>
           {/* Login/Register */}
-          <MDBNavbarItem>
-            <Link to="/login" className='nav-link'>Login/SignUp</Link>
-          </MDBNavbarItem>
-        </MDBNavbarNav>
+          <MDBNavbarNav className='ml-auto' style={{ marginLeft: '100px' }}>
+            <MDBNavbarItem>
+              <Link to="/login" className='nav-link'>Login/Signup</Link>
+            </MDBNavbarItem>
+          </MDBNavbarNav>
+        </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>
   );
