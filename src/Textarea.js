@@ -3,17 +3,23 @@ import { MDBInputGroup } from 'mdb-react-ui-kit';
 import sendImage from './send.png';
 
 const Textarea = () => {
+  // State variable to store the input value
   const [inputValue, setInputValue] = useState('');
+
+  // Reference to the textarea element
   const textareaRef = useRef(null);
 
+  // Adjust the textarea height whenever the input value changes
   useEffect(() => {
     adjustTextareaHeight();
   }, [inputValue]);
 
+  // Event handler for input change
   const handleInput = (e) => {
     setInputValue(e.target.value);
   };
 
+  // Adjust the height of the textarea based on its content
   const adjustTextareaHeight = () => {
     const textarea = textareaRef.current;
     if (textarea) {
@@ -22,7 +28,10 @@ const Textarea = () => {
     }
   };
 
+  // Check if the input is empty
   const isInputEmpty = inputValue.trim().length === 0;
+
+  // Inline style for the send image
   const imageStyle = isInputEmpty ? { filter: 'grayscale(100%)' } : {};
 
   return (
@@ -39,6 +48,7 @@ const Textarea = () => {
     >
       <MDBInputGroup tag="form" className='w-auto' style={{ margin: '0 auto' }}>
         <div style={{ position: 'relative', width: '100%' }}>
+          {/* Send image */}
           <img
             src={sendImage}
             alt="Paper Plane"
@@ -52,6 +62,8 @@ const Textarea = () => {
               ...imageStyle, // Apply the dynamic inline styles
             }}
           />
+
+          {/* Textarea input */}
           <textarea
             className='form-control text-left'
             placeholder="Type query"

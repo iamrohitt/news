@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 5000; // Choose an appropriate port number
+const port = 5000; // Specify the port number for the server
 
-app.use(cors());
+app.use(cors()); // Enable Cross-Origin Resource Sharing
 
 const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
@@ -11,6 +11,7 @@ const server = app.listen(port, () => {
 
 const mongoose = require('mongoose');
 
+// Connect to MongoDB using the provided connection URL and options
 mongoose.connect('mongodb+srv://mario:Fr33t3st@cluster.bdqihjb.mongodb.net/disaster', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -28,12 +29,15 @@ const relatedSchema = new mongoose.Schema({
     twitterUrl: String,
 });
 
+// Create a Mongoose model for the 'Related' collection using the defined schema
 const Related = mongoose.model('non-relateds', relatedSchema);
 
+// Define an API route '/api/related'
 app.get('/api/related', (req, res) => {
+    // Fetch all documents from the 'Related' collection
     Related.find({})
         .then(data => {
-            res.json(data);
+            res.json(data); // Send the fetched data as a JSON response
         })
         .catch(error => {
             console.error('Error fetching data from MongoDB:', error);
@@ -41,7 +45,9 @@ app.get('/api/related', (req, res) => {
         });
 });
 
+// Handle the SIGINT signal (e.g., when the server is terminated)
 process.on('SIGINT', () => {
+    // Close the MongoDB connection and stop the server
     mongoose.connection.close(() => {
         console.log('Mongoose connection closed');
         server.close();
