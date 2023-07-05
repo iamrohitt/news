@@ -56,40 +56,31 @@ const RegisterPage = () => {
         {/* Register form */}
         <form onSubmit={handleSubmit} className="form">
           {/* Email input */}
-          <div className="form-group">
-            <label htmlFor="email" className="label">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-              className="input"
-            />
-          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={handleEmailChange}
+            className="input"
+          />
 
           {/* Password input */}
-          <div className="form-group">
-            <label htmlFor="password" className="label">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handlePasswordChange}
-              className="input"
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            className="input"
+          />
 
           {/* Confirm password input */}
-          <div className="form-group">
-            <label htmlFor="confirmPassword" className="label">Confirm Password:</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-              className="input"
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+            className="input"
+          />
 
           {/* Register button */}
           <button type="submit" className="button">Register</button>

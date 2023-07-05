@@ -63,47 +63,42 @@ const LoginPage = () => {
             padding: '20px',
             borderRadius: '10px',
             justifyContent: 'center',
-
             boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
             background: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(10px)',
           }}
         >
           {/* Email input */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-              style={{
-                padding: '8px',
-                borderRadius: '5px',
-                border: 'none',
-                background: 'rgba(255, 255, 255, 0.5)',
-                backdropFilter: 'blur(5px)',
-              }}
-            />
-          </div>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={handleEmailChange}
+            placeholder="Email"
+            style={{
+              padding: '8px',
+              borderRadius: '5px',
+              border: 'none',
+              background: 'rgba(255, 255, 255, 0.5)',
+              backdropFilter: 'blur(5px)',
+            }}
+          />
 
           {/* Password input */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handlePasswordChange}
-              style={{
-                padding: '8px',
-                borderRadius: '5px',
-                border: 'none',
-                background: 'rgba(255, 255, 255, 0.5)',
-                backdropFilter: 'blur(5px)',
-              }}
-            />
-          </div>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Password"
+            style={{
+              padding: '8px',
+              borderRadius: '5px',
+              border: 'none',
+              background: 'rgba(255, 255, 255, 0.5)',
+              backdropFilter: 'blur(5px)',
+            }}
+          />
 
           {/* Login button */}
           <button
