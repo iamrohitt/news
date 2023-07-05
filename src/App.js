@@ -1,32 +1,27 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import axios from "axios";
-import "./App.css"
-import moment from 'moment';
-import SearchBar from "./SearchBar.js"
-import CardBox from './CardBox.js'
-// import requests
-function App() {
-  const [news, setNews] = useState([]);
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
+import Navbar from './Navbar';
+import Home from './Home';
+import LoginPage from './LoginPage';
+import RegisterPage from './RegisterPage';
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/related").then((res) => {
-      console.log(res);
-      setNews(res);
-    });
-  }, []);
+const App = () => {
   return (
-    <>
-    <div>
-        <CardBox/>
-      </div>
-    <div className="searchbar">
-     <SearchBar/>
-     </div>
-      
-    
-    </>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Router>
+        <div>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} /> {/* Add this line */}
+          </Routes>
+        </div>
+      </Router>
+    </div>
   );
-}
+};
 
 export default App;
+
