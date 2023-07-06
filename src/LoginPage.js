@@ -102,19 +102,24 @@ const LoginPage = () => {
 
           {/* Login button */}
           <button
-            type="submit"
-            style={{
-              padding: '8px 16px',
-              borderRadius: '5px',
-              border: 'none',
-              background: 'linear-gradient(to bottom right, #74ebd5, #9face6)',
-              color: 'white',
-              cursor: 'pointer',
-              boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-            }}
-          >
-            Login
-          </button>
+  type="submit"
+  style={{
+    padding: '8px 16px',
+    borderRadius: '5px',
+    border: 'none',
+    background: 'linear-gradient(to bottom right, #74ebd5, #9face6)',
+    color: 'white',
+    cursor: 'pointer',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+    marginTop: '10px', // Add margin-top to match the second button
+    "&:hover": { // Add hover effect to match the second button
+      background: "linear-gradient(to bottom right, #74ebd5, #9face6)",
+    },
+  }}
+>
+  Login
+</button>
+
         </form>
 
         {/* "Don't have an account? Register now" */}

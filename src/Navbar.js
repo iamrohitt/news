@@ -48,7 +48,7 @@ const Navbar = () => {
             <Icon path={isOpen ? mdiClose : mdiMenu} size={1} />
           </MDBNavbarToggler>
           <MDBCollapse show={isOpen} navbar>
-            <MDBNavbarNav className='mr-auto 'style={{marginLeft:'800px'}}>
+            <MDBNavbarNav className='mr-auto 'style={{marginLeft:'1450px'}}>
               {/* About */}
               <MDBNavbarItem>
                 <MDBNavbarLink href='#' className='hover-underline-animation'>About</MDBNavbarLink>
@@ -63,7 +63,7 @@ const Navbar = () => {
               </MDBNavbarItem>
             </MDBNavbarNav>
             {/* Login/Register */}
-            <MDBNavbarNav className='ml-auto'style={{marginLeft:'100px'}}>
+            <MDBNavbarNav className='ml-auto'style={{marginLeft:'0px'}}>
               <MDBNavbarItem>
                 <Link to="/login" className='nav-link hover-underline-animation'>Login/Signup</Link>
               </MDBNavbarItem>
