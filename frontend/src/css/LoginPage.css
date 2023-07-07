@@ -61,4 +61,14 @@
     color: white;
     text-decoration: underline;
   }
+  .Toastify {
+    &__toast-container {
+      bottom: 0;
+      right: 0;
+    }
   
+    &__toast {
+      min-height: 60px;
+      margin-bottom: 10px;
+    }
+  }

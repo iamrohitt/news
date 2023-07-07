@@ -3,7 +3,6 @@ import axios from "axios";
 import { TfiTwitter } from "react-icons/tfi";
 import moment from "moment";
 import { Box, styled } from "@mui/system";
-import { Grid } from "@mui/material";
 import { BsClock } from "react-icons/bs";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -14,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import Button from "@mui/material/Button";
-import "./CardBox.css";
+import "../css/CardBox.css";
 
 // Styled component for customizing the Card
 const StyledCard = styled(Card)({
@@ -31,31 +30,45 @@ const CustomCardContent = styled(CardContent)({
   overflow: "hidden", // Hide any overflow content
 });
 
+const CustomCardContent2 = styled(CardContent)({
+  display: "flex",
+  justifyContent: "flex-end",
+  alignItems: "center",
+  height: "35px",
+  overflow: "hidden",
+});
+
 const CardBox = () => {
   // State variables
   const [news, setNews] = useState([]);
-  const [expanded, setExpanded] = useState(true);
-
+  const token = localStorage.getItem("token");
+  console.log(token);
+  // State variables
   useEffect(() => {
     // Fetch news data when component mounts
     fetchNews();
   }, []);
 
   const fetchNews = () => {
-    // Fetch news from the server using Axios
+    // Get the token from localStorage
+    const token = localStorage.getItem("token");
+
+    // Create the Axios request config with the token in the headers
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    // Fetch news from the server using Axios with the token included in the headers
     axios
-      .get("http://localhost:5000/api/related")
+      .get("http://localhost:4000/api/news/related", config)
       .then((response) => {
         setNews(response.data);
       })
       .catch((error) => {
         console.error("Error fetching news:", error);
       });
-  };
-
-  const handleExpandClick = () => {
-    // Toggle the expanded state
-    setExpanded(!expanded);
   };
 
   return (
@@ -66,7 +79,9 @@ const CardBox = () => {
       minHeight="100vh"
       overflow="auto"
       paddingTop="100px" // Add padding top to accommodate the navbar height
-      style={{ background: "linear-gradient(to bottom right, #74ebd5, #9face6)" }}
+      style={{
+        background: "linear-gradient(to bottom right, #74ebd5, #9face6)",
+      }}
     >
       <div className="card-container">
         {news.length > 0 ? (
@@ -88,9 +103,7 @@ const CardBox = () => {
                         color="textSecondary"
                         sx={{ marginTop: "12px" }}
                       >
-                        {moment(item.timestamp)
-                          .startOf("hour")
-                          .fromNow()}
+                        {moment(item.timestamp).startOf("hour").fromNow()}
                       </Typography>
                     </Box>
                   }
@@ -98,6 +111,9 @@ const CardBox = () => {
                 <CustomCardContent>
                   <Typography>{item.text}</Typography>
                 </CustomCardContent>
+                <CustomCardContent2>
+                  {item.class && <Typography>{item.class}</Typography>}
+                </CustomCardContent2>
                 <CardActions disableSpacing>
                   <Button
                     variant="contained"
