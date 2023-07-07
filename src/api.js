@@ -30,7 +30,7 @@ const relatedSchema = new mongoose.Schema({
 });
 
 // Create a Mongoose model for the 'Related' collection using the defined schema
-const Related = mongoose.model('non-relateds', relatedSchema);
+const Related = mongoose.model('relateds', relatedSchema);
 
 // Define an API route '/api/related'
 app.get('/api/related', (req, res) => {

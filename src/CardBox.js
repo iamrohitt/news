@@ -4,7 +4,7 @@ import { TfiTwitter } from "react-icons/tfi";
 import moment from "moment";
 import { Box, styled } from "@mui/system";
 import { Grid } from "@mui/material";
-
+import { BsClock } from "react-icons/bs";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -13,18 +13,22 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
+import "./CardBox.css";
 
 // Styled component for customizing the Card
 const StyledCard = styled(Card)({
-  maxWidth: 345,
   marginBottom: 10,
   backgroundColor: "rgba(255, 255, 255, 0.7)",
   backdropFilter: "blur(5px)",
   boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
   borderRadius: "10px",
+  width: "375px", // Set a constant width for the card
+});
+// Styled component for customizing the CardContent
+const CustomCardContent = styled(CardContent)({
+  height: "200px", // Set a fixed height for the card content
+  overflow: "hidden", // Hide any overflow content
 });
 
 const CardBox = () => {
@@ -61,65 +65,73 @@ const CardBox = () => {
       alignItems="center"
       minHeight="100vh"
       overflow="auto"
+      paddingTop="100px" // Add padding top to accommodate the navbar height
       style={{ background: "linear-gradient(to bottom right, #74ebd5, #9face6)" }}
     >
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
+      <div className="card-container">
         {news.length > 0 ? (
           // Render each news item as a Card
           news.map((item) => (
-            <Grid item xs={12} sm={6} md={4} key={item.id}>
+            <div className="card-item" key={item.id}>
               <StyledCard>
                 <CardHeader
-                  title={<TfiTwitter size="30px" color="yellow" />}
+                  title={<TfiTwitter size="30px" color="black" />}
                   action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
+                    <Box display="flex" alignItems="center">
+                      <BsClock
+                        size={15}
+                        color="textSecondary"
+                        style={{ marginRight: "6px", marginTop: "7px" }}
+                      />
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        sx={{ marginTop: "12px" }}
+                      >
+                        {moment(item.timestamp)
+                          .startOf("hour")
+                          .fromNow()}
+                      </Typography>
+                    </Box>
                   }
-                  subheader={moment(item.timestamp).startOf("hour").fromNow()}
                 />
-                <CardContent>
+                <CustomCardContent>
                   <Typography>{item.text}</Typography>
+                </CustomCardContent>
+                <CardActions disableSpacing>
                   <Button
                     variant="contained"
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     sx={{
-                      marginTop: "10px",
+                      marginTop: "5px",
+                      marginBottom: "5px",
                       backgroundColor: "#FF4081",
                       color: "white",
                       "&:hover": {
-                        background: "linear-gradient(to bottom right, #74ebd5, #9face6)",
+                        background:
+                          "linear-gradient(to bottom right, #74ebd5, #9face6)",
                       },
                     }}
                   >
                     READ MORE
                   </Button>
-                </CardContent>
-                <CardActions disableSpacing>
                   <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                   </IconButton>
                   <IconButton aria-label="share">
                     <ShareIcon />
                   </IconButton>
-                  <IconButton
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </IconButton>
                 </CardActions>
               </StyledCard>
-            </Grid>
+            </div>
           ))
         ) : (
           // Display a message if no news is available
           <Typography>No news available</Typography>
         )}
-      </Grid>
+      </div>
     </Box>
   );
 };

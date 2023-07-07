@@ -11,7 +11,7 @@ const App = () => {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Router>
         <div>
-          <Navbar />
+          <Navbar/>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
@@ -24,4 +24,3 @@ const App = () => {
 };
 
 export default App;
-
