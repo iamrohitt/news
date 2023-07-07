@@ -1,21 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import Navbar from './Navbar';
-import Home from './Home';
-import LoginPage from './LoginPage';
-import RegisterPage from './RegisterPage';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import Logout from './pages/Logout';
+import Predict from './pages/Predict';
 
 const App = () => {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Router>
         <div>
-          <Navbar/>
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} /> {/* Add this line */}
+            <Route path="/signup" element={<RegisterPage />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/predict" element={<Predict />} />
           </Routes>
         </div>
       </Router>
