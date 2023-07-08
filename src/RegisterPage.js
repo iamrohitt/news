@@ -1,46 +1,47 @@
 import React, { useState } from 'react';
-import { useSignIn } from 'react-auth-kit';
-import './RegisterPage.css'; // Import the external CSS file
+import { BsEye, BsEyeSlash } from 'react-icons/bs';
+import './RegisterPage.css';
 
 const RegisterPage = () => {
-  // State variables to store email, password, confirmPassword, and username
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
-  // const signIn = useSignIn();
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); // Add 'confirmPasswordVisible' state variable
 
-  // Event handler for email input change
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  // Event handler for password input change
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  // Event handler for confirm password input change
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
   };
 
-  // Event handler for username input change
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
 
-  // Event handler for form submission
+  const handlePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const handleConfirmPasswordVisibility = () => {
+    setConfirmPasswordVisible(!confirmPasswordVisible); // Toggle the confirmPassword visibility state
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Perform registration logic here, such as sending data to a server
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
     console.log('Username:', username);
 
-    // Reset form fields
     setEmail('');
     setPassword('');
     setConfirmPassword('');
@@ -60,14 +61,18 @@ const RegisterPage = () => {
       }}
     >
       <div className="container">
-      
-
-        {/* Register form */}
         <form onSubmit={handleSubmit} className="form">
-           {/* Register form title */}
-        <h2 className="heading" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>Register</h2>
-        
-          {/* Username input */}
+          <h2
+            className="heading"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            Register
+          </h2>
+
           <input
             type="text"
             placeholder="Username"
@@ -75,7 +80,7 @@ const RegisterPage = () => {
             onChange={handleUsernameChange}
             className="input"
           />
-          {/* Email input */}
+
           <input
             type="email"
             placeholder="Email"
@@ -84,28 +89,39 @@ const RegisterPage = () => {
             className="input"
           />
 
-          {/* Password input */}
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
-            className="input"
-          />
+          <div className="password-input-container">
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
+              className="input"
+            />
+            {passwordVisible ? (
+              <BsEyeSlash className="password-input-icon" onClick={handlePasswordVisibility} />
+            ) : (
+              <BsEye className="password-input-icon" onClick={handlePasswordVisibility} />
+            )}
+          </div>
 
-          {/* Confirm password input */}
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            className="input"
-          />
+          <div className="password-input-container">
+            <input
+              type={confirmPasswordVisible ? 'text' : 'password'} // Toggle the input type based on confirmPassword visibility state
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              className="input"
+            />
+            {confirmPasswordVisible ? (
+              <BsEyeSlash className="password-input-icon" onClick={handleConfirmPasswordVisibility} />
+            ) : (
+              <BsEye className="password-input-icon" onClick={handleConfirmPasswordVisibility} />
+            )}
+          </div>
 
-          
-
-          {/* Register button */}
-          <button type="submit" className="button">Register</button>
+          <button type="submit" className="button">
+            Register
+          </button>
         </form>
       </div>
     </div>

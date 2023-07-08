@@ -28,8 +28,9 @@ const Navbar = () => {
             <MDBNavbarNav className='ml-auto'>
               {/* About */}
               <MDBNavbarItem>
-                <MDBNavbarLink href='#' className='hover-underline-animation'>About</MDBNavbarLink>
+                <Link to="/about" className='nav-link hover-underline-animation'>About</Link>
               </MDBNavbarItem>
+            
             
             </MDBNavbarNav>
             {/* Login/Register */}
