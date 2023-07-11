@@ -1,3 +1,6 @@
+.nav {
+  background-color: linear-gradient(to bottom right, #74ebd5, #9face6);
+}
 .hover-underline-animation {
     position: relative;
     color: #0087ca;
@@ -55,5 +58,22 @@
   
   .navbar-heading {
     font-weight: bold;
+  }
+  
+  .navbar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: opacity 0.3s ease;
+    z-index: 999;
+  }
+  
+  .navbar-wrapper.visible {
+    opacity: 1;
+  }
+  
+  .navbar-wrapper.hidden {
+    opacity: 0;
   }
   
