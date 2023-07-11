@@ -4,5 +4,5 @@ const newsController = require("../Controllers/NewsController"); // Import the N
 const { authMiddleware } = require("../Middlewares/AuthMiddleware");
 
 router.get("/related", authMiddleware, newsController.getAllRelatedNews);
-
+router.post("/news/:itemId/upvote", authMiddleware, newsController.upvoteNews);
 module.exports = router;
