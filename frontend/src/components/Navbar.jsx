@@ -27,7 +27,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
   const handleScroll = () => {
@@ -114,9 +114,9 @@ const Navbar = () => {
                     </button>
                   ) : (
                     <Link
-                      to="/login"
+                      to="/"
                       className={`nav-link hover-underline-animation ${
-                        location.pathname === "/login" ? "active" : ""
+                        location.pathname === "/" ? "active" : ""
                       }`}
                     >
                       Login/Signup

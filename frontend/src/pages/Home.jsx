@@ -3,7 +3,8 @@ import CardBox from "../components/CardBox";
 import { useNavigate } from "react-router-dom";
 import "../css/Home.css";
 
-const Home = ({ news }) => {
+const Home = (props) => {
+  const {state}= props
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
@@ -13,9 +14,9 @@ const Home = ({ news }) => {
   }, [token, navigate]);
   return (
     <div>
-      <CardBox news={news} />{" "}
+      <CardBox/>{" "}
       {/* Render the CardBox component and pass the 'news' prop */}
-    </div>
+    </div>  
   );
 };
 

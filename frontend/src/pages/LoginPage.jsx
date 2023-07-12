@@ -48,7 +48,7 @@ const LoginPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/", { state: { token } });
+      navigate("/home", { state: { token } });
     }
   }, [navigate]);
 
@@ -72,7 +72,7 @@ const LoginPage = () => {
           handleSuccess(message);
           localStorage.setItem("token", token);
           setTimeout(() => {
-            navigate("/", { state: { token } });
+            navigate("/home", { state: { token } });
           }, 2000);
         } else if (success === false) {
           handleError(message);

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const Logout = () => {
   const navigate = useNavigate();
   localStorage.removeItem("token");
-  navigate("/login");
+  navigate("/");
 };
 
 export default Logout;

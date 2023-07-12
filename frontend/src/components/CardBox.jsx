@@ -5,7 +5,6 @@ import moment from "moment";
 import { Box, styled } from "@mui/system";
 import { BsClock } from "react-icons/bs";
 import Card from "@mui/material/Card";
-import jwt from "jwt-decode";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -16,8 +15,8 @@ import ShareIcon from "@mui/icons-material/Share";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import "../css/CardBox.css";
+import { useNavigate } from "react-router-dom";
 
-const userId = jwt(localStorage.getItem("token")).id;
 const StyledCard = styled(Card)({
   marginBottom: 10,
   backgroundColor: "rgba(255, 255, 255, 0.7)",
@@ -34,10 +33,11 @@ const CustomCardContent = styled(CardContent)({
 
 const CustomCardContent2 = styled(CardContent)({
   display: "flex",
-  justifyContent: "flex-end",
+  justifyContent: "flex-start",
   alignItems: "center",
   height: "35px",
   overflow: "hidden",
+  // background: "darkgreen",
 });
 
 const CardBox = () => {
@@ -47,6 +47,23 @@ const CardBox = () => {
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(10);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [token, navigate]);
+  const parseJwt = (token) => {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+const decoded = parseJwt(token);
+const userId = decoded.id;
   const [filterClassName, setFilterClassName] = useState("");
 
   const handleFilterChange = (event) => {

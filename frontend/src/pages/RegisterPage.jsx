@@ -51,7 +51,7 @@ const RegisterPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/", { state: { token } });
+      navigate("/home", { state: { token } });
     }
   }, [navigate]);
 
@@ -72,7 +72,7 @@ const RegisterPage = () => {
         handleSuccess(message);
         localStorage.setItem("token", token);
         setTimeout(() => {
-          navigate("/");
+          navigate("/home");
         }, 2000);
       } else if (!success && message.errors) {
         const errorMessages = message.errors;
@@ -145,7 +145,7 @@ const RegisterPage = () => {
         </button>
 
         <span>
-          Already have an account? <Link to={"/login"}>Login</Link>
+          Already have an account? <Link to={"/"}>Login</Link>
         </span>
       </form>
       <ToastContainer />
