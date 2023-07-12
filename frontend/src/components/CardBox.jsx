@@ -31,14 +31,26 @@ const CustomCardContent = styled(CardContent)({
   overflow: "hidden",
 });
 
-const CustomCardContent2 = styled(CardContent)({
+const CustomCardContent2 = styled(CardContent)(({ textLength }) => ({
   display: "flex",
   justifyContent: "flex-start",
   alignItems: "center",
   height: "35px",
   overflow: "hidden",
-  // background: "darkgreen",
-});
+  position: "relative",
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: textLength ? `${(textLength / 50) * 100}%` : "0%",
+    height: "100%",
+    backgroundColor: "green",
+    opacity: 0.3,
+    zIndex: -1,
+  },
+}));
+
 
 const CardBox = () => {
   const [news, setNews] = useState([]);
@@ -234,40 +246,42 @@ const userId = decoded.id;
                   <CustomCardContent>
                     <Typography align="justify">{item.text}</Typography>
                   </CustomCardContent>
-                  <CustomCardContent2>
-                    {item.class && <Typography>{item.class}</Typography>}
-                  </CustomCardContent2>
-                  <CardActions disableSpacing>
-                    <Button
-                      variant="contained"
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{
-                        marginTop: "5px",
-                        marginBottom: "5px",
-                        backgroundColor: "#FF4081",
-                        color: "white",
-                        "&:hover": {
-                          background:
-                            "linear-gradient(to bottom right, #74ebd5, #9face6)",
-                        },
-                      }}
-                    >
-                      READ MORE
-                    </Button>
-                    <IconButton
-                      aria-label="add to favorites"
-                      onClick={() => handleUpvote(item._id)}
-                      color={item.upvoted ? "error" : "inherit"}
-                    >
-                      {item.upvotes}
-                      <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                      <ShareIcon />
-                    </IconButton>
-                  </CardActions>
+                  <CustomCardContent2 textLength={item.class ? item.class.length : 0}>
+  {item.class && <Typography>{item.class}</Typography>}
+</CustomCardContent2>
+                  <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
+  <Button
+    variant="contained"
+    href={item.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    sx={{
+      marginTop: "5px",
+      marginBottom: "5px",
+      backgroundColor: "#FF4081",
+      color: "white",
+      "&:hover": {
+        background: "linear-gradient(to bottom right, #74ebd5, #9face6)",
+      },
+    }}
+  >
+    READ MORE
+  </Button>
+  <div>
+    <IconButton
+      aria-label="add to favorites"
+      onClick={() => handleUpvote(item._id)}
+      color={item.upvoted ? "error" : "inherit"}
+    >
+      {item.upvotes}
+      <FavoriteIcon />
+    </IconButton>
+    <IconButton aria-label="share">
+      <ShareIcon />
+    </IconButton>
+  </div>
+</CardActions>
+
                 </StyledCard>
               </div>
             ))
