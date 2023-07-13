@@ -79,7 +79,6 @@ exports.getAllRelatedNews = async (req, res) => {
 
 exports.upvoteNews = async (req, res) => {
     const { itemId } = req.params;
-
     try {
         // Find the news item with the matching _id
         const newsItem = await Related.findById(itemId);
@@ -91,16 +90,19 @@ exports.upvoteNews = async (req, res) => {
         // Increment or decrement the upvotes count based on the current state
         if (newsItem.upvotedBy.includes(req.user.id)) {
             // If the user has already upvoted, remove their ID from the upvotedBy array and decrement the upvotes count
-            newsItem.upvotedBy = newsItem.upvotedBy.filter((userId) => userId !== req.user.id);
+            req.user.likedNews = req.user.likedNews.filter((id) => id.toString() !== itemId.toString());
+            newsItem.upvotedBy = newsItem.upvotedBy.filter((userId) => userId.toString() !== req.user.id.toString());
             newsItem.upvotes -= 1;
         } else {
             // If the user has not upvoted, add their ID to the upvotedBy array and increment the upvotes count
+            req.user.likedNews.push(itemId)
             newsItem.upvotedBy.push(req.user.id);
             newsItem.upvotes += 1;
         }
 
         // Save the updated news item
         await newsItem.save();
+        await req.user.save();
 
         // Return the updated news item in the response
         res.json(newsItem);
@@ -110,3 +112,50 @@ exports.upvoteNews = async (req, res) => {
     }
 };
 
+// exports.likeNews = async (req, res) => {
+//     try {
+//         const { newsId } = req.body;
+//         const userId = req.user._id;
+
+//         // Find the user
+//         const user = await User.findById(userId);
+
+//         // Check if the user exists
+//         if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//         }
+
+//         // Update the user's likedNews array with the new newsId
+//         user.likedNews.push(newsId);
+//         await user.save();
+
+//         res.status(200).json({ message: "News saved successfully" });
+//     } catch (error) {
+//         console.error("Error saving news:", error);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+// };
+
+// exports.unlikeNews = async (req, res) => {
+//     try {
+//         const { newsId } = req.params;
+//         const userId = req.user._id;
+
+//         // Find the user
+//         const user = await User.findById(userId);
+
+//         // Check if the user exists
+//         if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//         }
+
+//         // Remove the newsId from the likedNews array
+//         user.likedNews = user.likedNews.filter((id) => id !== newsId);
+//         await user.save();
+
+//         res.status(200).json({ message: "News unliked successfully" });
+//     } catch (error) {
+//         console.error("Error unliking news:", error);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+// };

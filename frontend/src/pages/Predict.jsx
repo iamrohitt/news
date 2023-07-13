@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import '../css/Predict.css';
+import "../css/Predict.css";
 
 const Predict = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/");
     }
   }, [token, navigate]);
   const [inputValue, setInputValue] = useState("");
@@ -40,10 +40,7 @@ const Predict = () => {
           placeholder="Enter your input here"
           className="input-textarea"
         ></textarea>
-        <button
-          onClick={handlePredict}
-          className="predict-button"
-        >
+        <button onClick={handlePredict} className="predict-button">
           Predict
         </button>
         {predictionResult && (

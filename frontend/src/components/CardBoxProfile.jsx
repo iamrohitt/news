@@ -11,10 +11,10 @@ import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { FaShare } from "react-icons/fa";
-import ShareButton from "./ShareButtonComponent";
 import Button from "@mui/material/Button";
+import { FaShare } from "react-icons/fa";
 import CircularProgress from "@mui/material/CircularProgress";
+import ShareButton from "./ShareButtonComponent";
 import "../css/CardBox.css";
 import { useNavigate } from "react-router-dom";
 
@@ -52,7 +52,7 @@ const CustomCardContent2 = styled(CardContent)(({ textLength }) => ({
   },
 }));
 
-const CardBox = () => {
+const CardBoxProfile = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showReadMore, setShowReadMore] = useState(true);
@@ -97,15 +97,16 @@ const CardBox = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/news/related?start=${start}&end=${end}&className=${className}`,
+        `http://localhost:4000/likedNews`,
         config
       );
-
-      if (response.data.length > 0) {
-        const updatedNews = response.data.map((item) => ({
+      console.log(response.data["relatedNews"]);
+      if (response.data["relatedNews"].length > 0) {
+        const updatedNews = response.data["relatedNews"].map((item) => ({
           ...item,
           upvoted: item.upvotedBy.includes(userId),
         }));
+        console.log(updatedNews);
         setNews([...updatedNews]);
         // Increment start and end values for the next page
         setStart((prevStart) => prevStart + response.data.length);
@@ -171,20 +172,14 @@ const CardBox = () => {
     alignItems: "center",
     marginBottom: "10px",
   };
-
-  const selectStyle = {
-    padding: "8px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    fontSize: "16px",
-    backgroundColor: "#fff",
-    color: "#333",
-    transition: "border-color 0.3s ease-in-out",
-  };
   const [showShareButton, setShowShareButton] = useState(false);
 
   const handleClick = () => {
-    setShowShareButton(true);
+    if (showShareButton) {
+      setShowShareButton(false);
+    } else {
+      setShowShareButton(true);
+    }
   };
 
   return (
@@ -202,30 +197,7 @@ const CardBox = () => {
         }}
       >
         <div style={filterDivStyle}>
-          <select
-            value={filterClassName}
-            onChange={handleFilterChange}
-            style={selectStyle}
-            onFocus={(e) => (e.target.style.borderColor = "#FF4081")}
-            onBlur={(e) => (e.target.style.borderColor = "#ccc")}
-          >
-            <option value="All">All</option>{" "}
-            {/* Set "All" as the default option */}
-            <option value="Weather Events">Weather Events</option>
-            <option value="Natural Disasters">Natural Disasters</option>
-            <option value="Human-Caused Disasters">
-              Human-Caused Disasters
-            </option>
-            <option value="Accidents and Incidents">
-              Accidents and Incidents
-            </option>
-            <option value="Public Health Emergencies">
-              Public Health Emergencies
-            </option>
-            <option value="Most Upvoted">Most Upvoted</option>
-            <option value="Most Recent">Most Recent</option>
-            {/* Add more options as needed */}
-          </select>
+          <h2>Your Liked News Posts</h2>
         </div>
         <div className="card-container">
           {loading ? (
@@ -318,27 +290,8 @@ const CardBox = () => {
           )}
         </div>
       </Box>
-      {showReadMore && (
-        <div className="more-news-container">
-          <Button
-            variant="contained"
-            onClick={() => fetchNews(filterClassName)}
-            disabled={loading}
-            sx={{
-              backgroundColor: "#FF4081",
-              color: "white",
-              "&:hover": {
-                background:
-                  "linear-gradient(to bottom right, #74ebd5, #9face6)",
-              },
-            }}
-          >
-            {loading ? "Loading..." : "More News"}
-          </Button>
-        </div>
-      )}
     </div>
   );
 };
 
-export default CardBox;
+export default CardBoxProfile;

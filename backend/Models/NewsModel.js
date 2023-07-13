@@ -5,7 +5,9 @@ const relatedSchema = new mongoose.Schema({
     timestamp: Date,
     twitterUrl: String,
     upvotes: Number,
-    upvotedBy: [String],
+    upvotedBy: {
+        type: [mongoose.Schema.Types.ObjectId],  // Assuming upvotedBy stores user ObjectId(s)
+    },
 });
 
 module.exports = mongoose.model('related', relatedSchema);

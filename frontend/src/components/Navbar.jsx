@@ -101,6 +101,19 @@ const Navbar = () => {
                     </Link>
                   </MDBNavbarItem>
                 )}
+                {/* Profile */}
+                {token && (
+                  <MDBNavbarItem>
+                    <Link
+                      to="/profile"
+                      className={`nav-link hover-underline-animation ${
+                        location.pathname === "/profile" ? "active" : ""
+                      }`}
+                    >
+                      Profile
+                    </Link>
+                  </MDBNavbarItem>
+                )}
               </MDBNavbarNav>
               {/* Login/Register or Logout */}
               <MDBNavbarNav className="ml-auto">

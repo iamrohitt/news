@@ -19,10 +19,14 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: new Date(),
     },
+    likedNews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'NewsItem',
+    }], // Assuming likedNews stores NewsItem ObjectId
 });
 
 userSchema.pre("save", async function () {
-    this.password = await bcrypt.hash(this.password, 12);
+    password = await bcrypt.hash(this.password, 10);
 });
 
 module.exports = mongoose.model("User", userSchema);
