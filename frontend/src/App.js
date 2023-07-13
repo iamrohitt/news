@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Logout from './pages/Logout';
 import Predict from './pages/Predict';
+import AboutPage from './pages/About';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/" element={<LoginPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/signup" element={<RegisterPage />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/predict" element={<Predict />} />

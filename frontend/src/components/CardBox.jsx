@@ -43,14 +43,13 @@ const CustomCardContent2 = styled(CardContent)(({ textLength }) => ({
     position: "absolute",
     top: 0,
     left: 0,
-    width: textLength ? `${(textLength / 50) * 100}%` : "0%",
+    width: textLength ? `${(textLength / 35) * 100}%` : "0%",
     height: "100%",
     backgroundColor: "green",
     opacity: 0.3,
     zIndex: -1,
   },
 }));
-
 
 const CardBox = () => {
   const [news, setNews] = useState([]);
@@ -60,23 +59,25 @@ const CardBox = () => {
   const [end, setEnd] = useState(10);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!token) {
-      navigate("/login");
-    }
-  }, [token, navigate]);
+
   const parseJwt = (token) => {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
 
     return JSON.parse(jsonPayload);
-}
-const decoded = parseJwt(token);
-const userId = decoded.id;
-  const [filterClassName, setFilterClassName] = useState("");
+  };
+  const decoded = parseJwt(token);
+  const userId = decoded.id;
+  const [filterClassName, setFilterClassName] = useState("All"); // Set "All" as the default option
 
   const handleFilterChange = (event) => {
     setFilterClassName(event.target.value);
@@ -157,8 +158,12 @@ const userId = decoded.id;
   };
 
   useEffect(() => {
-    fetchNews(filterClassName);
-  }, [filterClassName]);
+    if (!token) {
+      navigate("/");
+    } else {
+      fetchNews(filterClassName); // Fetch news after setting the default option
+    }
+  }, [token, navigate, filterClassName]);
 
   const filterDivStyle = {
     display: "flex",
@@ -198,7 +203,8 @@ const userId = decoded.id;
             onFocus={(e) => (e.target.style.borderColor = "#FF4081")}
             onBlur={(e) => (e.target.style.borderColor = "#ccc")}
           >
-            <option value="">All</option>
+            <option value="All">All</option>{" "}
+            {/* Set "All" as the default option */}
             <option value="Weather Events">Weather Events</option>
             <option value="Natural Disasters">Natural Disasters</option>
             <option value="Human-Caused Disasters">
@@ -246,42 +252,47 @@ const userId = decoded.id;
                   <CustomCardContent>
                     <Typography align="justify">{item.text}</Typography>
                   </CustomCardContent>
-                  <CustomCardContent2 textLength={item.class ? item.class.length : 0}>
-  {item.class && <Typography>{item.class}</Typography>}
-</CustomCardContent2>
-                  <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
-  <Button
-    variant="contained"
-    href={item.url}
-    target="_blank"
-    rel="noopener noreferrer"
-    sx={{
-      marginTop: "5px",
-      marginBottom: "5px",
-      backgroundColor: "#FF4081",
-      color: "white",
-      "&:hover": {
-        background: "linear-gradient(to bottom right, #74ebd5, #9face6)",
-      },
-    }}
-  >
-    READ MORE
-  </Button>
-  <div>
-    <IconButton
-      aria-label="add to favorites"
-      onClick={() => handleUpvote(item._id)}
-      color={item.upvoted ? "error" : "inherit"}
-    >
-      {item.upvotes}
-      <FavoriteIcon />
-    </IconButton>
-    <IconButton aria-label="share">
-      <ShareIcon />
-    </IconButton>
-  </div>
-</CardActions>
-
+                  <CustomCardContent2
+                    textLength={item.class ? item.class.length : 0}
+                  >
+                    {item.class && <Typography>{item.class}</Typography>}
+                  </CustomCardContent2>
+                  <CardActions
+                    disableSpacing
+                    sx={{ justifyContent: "space-between" }}
+                  >
+                    <Button
+                      variant="contained"
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                        backgroundColor: "#FF4081",
+                        color: "white",
+                        "&:hover": {
+                          background:
+                            "linear-gradient(to bottom right, #74ebd5, #9face6)",
+                        },
+                      }}
+                    >
+                      READ MORE
+                    </Button>
+                    <div>
+                      <IconButton
+                        aria-label="add to favorites"
+                        onClick={() => handleUpvote(item._id)}
+                        color={item.upvoted ? "error" : "inherit"}
+                      >
+                        {item.upvotes}
+                        <FavoriteIcon />
+                      </IconButton>
+                      <IconButton aria-label="share">
+                        <ShareIcon />
+                      </IconButton>
+                    </div>
+                  </CardActions>
                 </StyledCard>
               </div>
             ))

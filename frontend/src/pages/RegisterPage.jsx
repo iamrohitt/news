@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 import "../css/RegisterPage.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,7 +19,10 @@ const RegisterPage = () => {
     password: "",
     username: "",
   });
-
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const handlePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -98,7 +102,16 @@ const RegisterPage = () => {
   return (
     <div className="login-page">
       <form onSubmit={handleSubmit} className="login-form">
-        <h2 className="login-form-title">Register</h2>
+        <h2
+          className="heading"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          Register
+        </h2>
 
         <div>
           <input
@@ -126,17 +139,26 @@ const RegisterPage = () => {
             <span className="error-message">{errors.email}</span>
           )}
         </div>
-        <div>
+        <div className="password-input-container">
+          {" "}
           <input
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             name="password"
             value={password}
             onChange={handleOnChange}
             placeholder="Password"
             className="login-input"
           />
-          {errors.password && (
-            <span className="error-message">{errors.password}</span>
+          {passwordVisible ? (
+            <BsEyeSlash
+              className="password-input-icon"
+              onClick={handlePasswordVisibility}
+            />
+          ) : (
+            <BsEye
+              className="password-input-icon"
+              onClick={handlePasswordVisibility}
+            />
           )}
         </div>
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { BsEye, BsEyeSlash } from "react-icons/bs"; // Import eye icons from React Icons
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,6 +12,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const [passwordVisible, setPasswordVisible] = useState(false); // New state for password visibility
   const { email, password } = inputValue;
 
   const [formErrors, setFormErrors] = useState({
@@ -24,6 +26,9 @@ const LoginPage = () => {
       ...inputValue,
       [name]: value,
     });
+  };
+  const handlePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   // ...
@@ -103,15 +108,28 @@ const LoginPage = () => {
             <span className="error-message">{formErrors.email}</span>
           )}
         </div>
-        <div>
+        <div className="password-input-container">
+          {" "}
+          {/* New container to hold the password input and eye icon */}
           <input
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             name="password"
             value={password}
             onChange={handleOnChange}
             placeholder="Password"
             className="login-input"
           />
+          {passwordVisible ? (
+            <BsEyeSlash
+              className="login-input-icon"
+              onClick={handlePasswordVisibility}
+            />
+          ) : (
+            <BsEye
+              className="login-input-icon"
+              onClick={handlePasswordVisibility}
+            />
+          )}
           {formErrors.password && (
             <span className="error-message">{formErrors.password}</span>
           )}

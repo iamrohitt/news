@@ -16,6 +16,19 @@ exports.getAllRelatedNews = async (req, res) => {
                 res.status(500).json({ error: "Failed to fetch data from MongoDB" });
             });
     }
+    else if (className === "All") {
+        Related.find()
+            .sort({ timestamp: -1 })
+            .skip(parseInt(start))
+            .limit(parseInt(end))
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching data from MongoDB:", error);
+                res.status(500).json({ error: "Failed to fetch data from MongoDB" });
+            });
+    }
     else if (className === "Most Recent") {
         Related.find()
             .sort({ timestamp: -1 })

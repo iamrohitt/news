@@ -80,7 +80,7 @@ const Navbar = () => {
                 {/* About */}
                 <MDBNavbarItem>
                   <MDBNavbarLink
-                    href="#"
+                    href="/about"
                     className={`hover-underline-animation ${
                       location.pathname === "/about" ? "active" : ""
                     }`}
