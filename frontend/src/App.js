@@ -8,6 +8,9 @@ import RegisterPage from './pages/RegisterPage';
 import Logout from './pages/Logout';
 import Predict from './pages/Predict';
 import AboutPage from './pages/About';
+import ForgetPassword from './pages/ForgetPassword';
+import PasswordReset from './pages/PasswordReset';
+import ProfilePage from './pages/Profile';
 
 const App = () => {
   return (
@@ -22,6 +25,9 @@ const App = () => {
             <Route path="/signup" element={<RegisterPage />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/predict" element={<Predict />} />
+            <Route path="/forget-password" element={<ForgetPassword />} />
+            <Route path="/password-reset/:id/:token" element={<PasswordReset />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </div>
       </Router>

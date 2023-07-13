@@ -6,6 +6,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
 const newsRoute = require("./Routes/NewsRoute");
+const passwordResetRoutes = require('./Routes/PasswordReset')
 const PORT = 4000;
 
 mongoose
@@ -34,3 +35,4 @@ app.use(express.json());
 
 app.use("/", authRoute);
 app.use("/api/news", newsRoute);
+app.use("/api/password-reset", passwordResetRoutes)

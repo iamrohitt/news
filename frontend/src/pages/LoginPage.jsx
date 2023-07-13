@@ -134,7 +134,9 @@ const LoginPage = () => {
             <span className="error-message">{formErrors.password}</span>
           )}
         </div>
-
+        <Link to="/forget-password" style={{ alignSelf: "flex-start" }}>
+          <p style={{ padding: "0" }}>Forget Password?</p>
+        </Link>
         <button type="submit" className="login-button">
           Login
         </button>
