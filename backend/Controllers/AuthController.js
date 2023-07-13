@@ -1,6 +1,7 @@
 const User = require("../Models/UserModel");
 const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcryptjs");
+const Related = require("../Models/NewsModel");
 
 module.exports.Signup = async (req, res, next) => {
     try {
@@ -8,17 +9,21 @@ module.exports.Signup = async (req, res, next) => {
 
         // Check if any required fields are missing
         if (!email || !password || !username) {
-            return res.status(400).json({ message: "Missing required fields" });
+            return res
+                .status(400)
+                .json({ success: false, message: "All fields are required" });
         }
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.json({ message: "User already exists" });
+            return res
+                .status(409)
+                .json({ success: false, message: "User already exists" });
         }
 
         const user = await User.create({ email, password, username, createdAt });
         const token = createSecretToken(user._id);
-        //console.log(token)
+        // console.log(token)
         res.cookie("token", token, {
             withCredentials: true,
             httpOnly: false,
@@ -27,13 +32,17 @@ module.exports.Signup = async (req, res, next) => {
         });
         res
             .status(201)
-            .json({ message: "User signed up successfully", success: true, user, token });
+            .json({ success: true, message: "User signed up successfully", user, token });
         next();
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal server error" });
+        res
+            .status(500)
+            .json({ success: false, message: "An error occurred. Please try again later" });
     }
 };
+
+
 module.exports.Login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -54,7 +63,7 @@ module.exports.Login = async (req, res, next) => {
 
         // Check if the password is correct
         if (!isPasswordValid) {
-            return res.status(401).json({ success: false, message: 'Incorrect email or password' });
+            return res.status(401).json({ success: false, message: 'Incorrect password' });
         }
 
         const token = createSecretToken(user._id);
@@ -104,5 +113,24 @@ module.exports.Home = async (req, res, next) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+module.exports.Profile = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user._id);
+        // Check if the user exists
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        // Get an array of news IDs from the user's likedNews field
+        const newsIds = user.likedNews.map(news => news._id);
+        // Fetch the related news based on the newsIds array
+        const relatedNews = await Related.find({
+            _id: { $in: newsIds }
+        });
+        res.status(200).json({ relatedNews });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: `Internal server error ${error}` });
     }
 };

@@ -1,3 +1,7 @@
+.bgbg {
+  background: linear-gradient(to bottom right, #74ebd5, #9face6);
+}
+
 .card {
   /* Add your custom card styles here */
   max-width: 345px;
@@ -48,3 +52,25 @@
     justify-content: center; /* Align center for smaller screens */
   }
 }
+
+.more-news-container {
+  display: flex;
+  background-color: inherit;
+  justify-content: center;
+  padding: 20px;
+}
+
+
+.CustomCardContent2 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 35px;
+  overflow: hidden;
+  position: relative;
+}
+
+
+
+
+

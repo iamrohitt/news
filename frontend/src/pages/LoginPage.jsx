@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { BsEye, BsEyeSlash } from "react-icons/bs"; // Import eye icons from React Icons
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../css/LoginPage.css";
 
 const LoginPage = () => {
@@ -10,7 +12,13 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const [passwordVisible, setPasswordVisible] = useState(false); // New state for password visibility
   const { email, password } = inputValue;
+
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -19,59 +27,67 @@ const LoginPage = () => {
       [name]: value,
     });
   };
+  const handlePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
-  const handleError = (err) =>
-    toast.error(err, {
-      // position: "bottom-left",
+  // ...
+
+  const handleError = (err) => {
+    let errorMessage = "An error occurred. Please try again";
+    if (err.response && err.response.data && err.response.data.message) {
+      errorMessage = err.response.data.message;
+    }
+    toast.error(errorMessage, {
+      position: "bottom-left",
     });
+  };
+
+  // ...
+
   const handleSuccess = (msg) =>
     toast.success(msg, {
-      // position: "bottom-left",
+      position: "bottom-left",
     });
 
   useEffect(() => {
-    // Check if user is already logged in or has an active session
-    // You can use your preferred method to check for authentication status, e.g., checking for a saved token in local storage
-
-    // Example: Check if a token exists in local storage
     const token = localStorage.getItem("token");
     if (token) {
-      // User is already authenticated, redirect to another route
-      navigate("/", { state: { token } });
+      navigate("/home", { state: { token } });
     }
   }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        "http://localhost:4000/login",
-        {
-          ...inputValue,
-        },
-        { withCredentials: true }
-      );
-      console.log(data);
-      const { success, message, token } = data;
-      console.log(success, message);
-      if (success) {
-        handleSuccess(message);
-        localStorage.setItem("token", token); // Store the token in localStorage
-        setTimeout(() => {
-          console.log(localStorage.getItem("token")); // Log the token after a delay
-          navigate("/", { state: { token } }); // Pass the token as state when navigating
-        }, 2000);
-      } else {
-        handleError(message);
+
+    // Check if there are any validation errors
+    const isFormValid = Object.values(formErrors).every((error) => !error);
+
+    if (isFormValid) {
+      try {
+        const { data } = await axios.post(
+          "http://localhost:4000/login",
+          {
+            ...inputValue,
+          },
+          { withCredentials: true }
+        );
+        const { success, message, token } = data;
+        if (success === true) {
+          handleSuccess(message);
+          localStorage.setItem("token", token);
+          setTimeout(() => {
+            navigate("/home", { state: { token } });
+          }, 2000);
+        } else if (success === false) {
+          handleError(message);
+        } else {
+          handleError("An error occurred, please try again later.");
+        }
+      } catch (error) {
+        handleError(error);
       }
-    } catch (error) {
-      console.log(error);
     }
-    setInputValue({
-      ...inputValue,
-      email: "",
-      password: "",
-    });
   };
 
   return (
@@ -88,18 +104,39 @@ const LoginPage = () => {
             onChange={handleOnChange}
             className="login-input"
           />
+          {formErrors.email && (
+            <span className="error-message">{formErrors.email}</span>
+          )}
         </div>
-        <div>
+        <div className="password-input-container">
+          {" "}
+          {/* New container to hold the password input and eye icon */}
           <input
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             name="password"
             value={password}
             onChange={handleOnChange}
             placeholder="Password"
             className="login-input"
           />
+          {passwordVisible ? (
+            <BsEyeSlash
+              className="login-input-icon"
+              onClick={handlePasswordVisibility}
+            />
+          ) : (
+            <BsEye
+              className="login-input-icon"
+              onClick={handlePasswordVisibility}
+            />
+          )}
+          {formErrors.password && (
+            <span className="error-message">{formErrors.password}</span>
+          )}
         </div>
-
+        <Link to="/forget-password" style={{ alignSelf: "flex-start" }}>
+          <p style={{ padding: "0" }}>Forget Password?</p>
+        </Link>
         <button type="submit" className="login-button">
           Login
         </button>

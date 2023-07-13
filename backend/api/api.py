@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
-from nltk.corpus import stopwords
 from flask_cors import CORS
+from nltk.corpus import stopwords
 import nltk
 import string
 import pickle
