@@ -134,15 +134,17 @@ const LoginPage = () => {
             <span className="error-message">{formErrors.password}</span>
           )}
         </div>
+        <div className="forget-password">
         <Link to="/forget-password" style={{ alignSelf: "flex-start" }}>
           <p style={{ padding: "0" }}>Forget Password?</p>
         </Link>
+        </div>
         <button type="submit" className="login-button">
           Login
         </button>
 
-        <span>
-          Already have an account? <Link to={"/signup"}>Signup</Link>
+        <span className="details">
+          Already have an account? <Link to={"/signup"}>{' '} Signup</Link>
         </span>
       </form>
       <ToastContainer />

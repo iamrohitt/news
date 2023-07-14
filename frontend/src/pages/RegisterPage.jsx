@@ -166,7 +166,7 @@ const RegisterPage = () => {
           Register
         </button>
 
-        <span>
+        <span className="details">
           Already have an account? <Link to={"/"}>Login</Link>
         </span>
       </form>

@@ -48,9 +48,11 @@ const Predict = () => {
             <div className="prediction-result">
               <p>Input News: {predictionResult.input_news}</p>
               {/* <p>Preprocessed News: {predictionResult.preprocessed_news}</p> */}
-              <p>Is Disaster Related: {predictionResult.is_disaster_related}</p>
               {predictionResult.is_disaster_related === 0 && (
                 <p>No disaster-related information found.</p>
+              )}
+              {predictionResult.is_disaster_related === 1 && (
+                <p>Disaster News Detected</p>
               )}
               {predictionResult.is_disaster_related === 1 && (
                 <p>Class: {predictionResult.class}</p>

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { React, useEffect } from "react";
 import "../css/ProfilePage.css";
 import CardBoxProfile from "../components/CardBoxProfile";
+import UserInformation from "../components/ProfileDesc";
 const ProfilePage = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();

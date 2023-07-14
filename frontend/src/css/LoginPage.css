@@ -87,3 +87,15 @@
   cursor: pointer;
   color: rgba(0, 0, 0, 0.5);
 }
+.details {
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+}
+
+.forget-password {
+  margin-top: 5px;
+  margin-bottom: -5px;
+  display: flex;
+  justify-content: flex-end;
+}

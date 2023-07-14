@@ -42,6 +42,7 @@
   
   .prediction-result {
     margin-bottom: 10px;
+    text-align: center;
   }
   
   .prediction-result p {
