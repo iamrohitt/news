@@ -4,8 +4,8 @@ const router = require('express').Router()
 
 router.post('/signup', Signup)
 router.post('/login', Login)
-router.post('/', authMiddleware, Home) // this is just a test route
-router.post('/logout', Logout)
+router.post('/', authMiddleware, Home)
+router.post('/logout', authMiddleware, Logout)
 router.get('/likedNews', authMiddleware, Profile)
 router.get('/api/user', authMiddleware, UserInfo)
 

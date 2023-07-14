@@ -54,10 +54,8 @@ const CustomCardContent2 = styled(CardContent)(({ textLength }) => ({
 
 const CardBoxProfile = () => {
   const [news, setNews] = useState([]);
+  const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showReadMore, setShowReadMore] = useState(true);
-  const [start, setStart] = useState(0);
-  const [end, setEnd] = useState(10);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -80,12 +78,6 @@ const CardBoxProfile = () => {
   const userId = decoded.id;
   const [filterClassName, setFilterClassName] = useState("All"); // Set "All" as the default option
 
-  const handleFilterChange = (event) => {
-    setFilterClassName(event.target.value);
-    setStart(0);
-    setEnd(10);
-  };
-
   const fetchNews = async (className) => {
     const config = {
       headers: {
@@ -106,13 +98,13 @@ const CardBoxProfile = () => {
           ...item,
           upvoted: item.upvotedBy.includes(userId),
         }));
+        const updatedUser = response.data["user"];
         console.log(updatedNews);
         setNews([...updatedNews]);
+        console.log(updatedUser);
+        setUser(updatedUser);
         // Increment start and end values for the next page
-        setStart((prevStart) => prevStart + response.data.length);
-        setEnd((prevEnd) => prevEnd + response.data.length);
       } else {
-        setShowReadMore(false);
       }
     } catch (error) {
       console.error("Error fetching news:", error);
@@ -120,6 +112,7 @@ const CardBoxProfile = () => {
       setLoading(false);
     }
   };
+
   const handleUpvote = async (itemId) => {
     try {
       await axios.post(
@@ -196,6 +189,9 @@ const CardBoxProfile = () => {
           background: "linear-gradient(to bottom right, #74ebd5, #9face6)",
         }}
       >
+        <div style={filterDivStyle}>
+          Hello, {user.username}! You have liked {news.length} news posts.
+        </div>
         <div style={filterDivStyle}>
           <h2>Your Liked News Posts</h2>
         </div>

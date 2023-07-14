@@ -128,7 +128,7 @@ module.exports.Profile = async (req, res, next) => {
         const relatedNews = await Related.find({
             _id: { $in: newsIds }
         });
-        res.status(200).json({ relatedNews });
+        res.status(200).json({ relatedNews, user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: `Internal server error ${error}` });
@@ -136,10 +136,10 @@ module.exports.Profile = async (req, res, next) => {
 };
 module.exports.UserInfo = async (req, res) => {
     try {
-      // Fetch user information from MongoDb
-      res.json(req.user);
+        // Fetch user information from MongoDb
+        res.json(req.user);
     } catch (error) {
-      console.error('Error fetching user information:', error);
-      res.status(500).json({ error: 'Internal server error' });
+        console.error('Error fetching user information:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-  };
+};
