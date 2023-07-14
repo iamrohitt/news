@@ -134,3 +134,12 @@ module.exports.Profile = async (req, res, next) => {
         res.status(500).json({ success: false, message: `Internal server error ${error}` });
     }
 };
+module.exports.UserInfo = async (req, res) => {
+    try {
+      // Fetch user information from MongoDb
+      res.json(req.user);
+    } catch (error) {
+      console.error('Error fetching user information:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
